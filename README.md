@@ -7,7 +7,7 @@ similar to [actix_web::middleware:Logger](https://docs.rs/actix-web/2.0.0/actix_
 except that it uses [slog](https://crates.io/crates/slog) and thus enables JSON-formatted logging (via [slog-json](https://crates.io/crates/slog-json)).
 
 Of course [slog's compact terminal output](https://github.com/slog-rs/slog#terminal-output-example) is a nice add-on, 
-even if your just out for JSON-logging.
+even if you're just out for JSON-logging.
 
 ## Usage
 
