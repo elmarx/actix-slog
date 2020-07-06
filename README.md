@@ -1,4 +1,4 @@
-![Rust build](https://github.com/elmarx/actix-slog/workflows/Rust/badge.svg) [![crates.io badge](https://img.shields.io/crates/v/actix-slog.svg)](https://crates.io/crates/actix-slog) [![docs.rs badge](https://docs.rs/actix-slog/badge.svg)](https://docs.rs/actix-slog)
+[![Rust build](https://github.com/elmarx/actix-slog/workflows/Rust/badge.svg)](https://github.com/elmarx/actix-slog/actions?query=workflow%3ARust) [![crates.io badge](https://img.shields.io/crates/v/actix-slog.svg)](https://crates.io/crates/actix-slog) [![docs.rs badge](https://docs.rs/actix-slog/badge.svg)](https://docs.rs/actix-slog)
 
 # Structured (access-) logging for actix-web
 

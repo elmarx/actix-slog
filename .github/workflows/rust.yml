@@ -1,0 +1,26 @@
+name: Rust
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: cargo check --tests --examples --verbose
+    - name: check style
+      run: cargo fmt --all -- --check
+    - name: Lint
+      run: cargo clippy --tests --examples -- -W clippy::pedantic
+    - name: Run tests
+      run: cargo test --verbose
