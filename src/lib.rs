@@ -5,19 +5,14 @@
 //! use actix_slog::StructuredLogger;
 //! use slog::o;
 //!
-//! fn main() {
-//!   let logger: slog::Logger = unimplemented!();
-//!   let server = HttpServer::new(move || {
-//!     App::new()
-//!       .wrap(
-//!         StructuredLogger::new(logger.new(o!("log_type" => "access"))),
-//!       )
-//!     })
-//!     .bind("[::1]:8080");
-//!
-//!     unimplemented!()
-//! }
-//!     
+//! let logger: slog::Logger = unimplemented!();
+//! let server = HttpServer::new(move || {
+//!   App::new()
+//!     .wrap(
+//!       StructuredLogger::new(logger.new(o!("log_type" => "access"))),
+//!     )
+//!   })
+//!   .bind("[::1]:8080");
 //! ```
 use actix_web::dev::{
     BodySize, MessageBody, ResponseBody, Service, ServiceRequest, ServiceResponse, Transform,
