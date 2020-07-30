@@ -15,14 +15,15 @@
 //!   .bind("[::1]:8080");
 //! ```
 use actix_web::dev::{
-    BodySize, MessageBody, ResponseBody, Service, ServiceRequest, ServiceResponse, Transform,
+    BodySize, Service, ServiceRequest, ServiceResponse, Transform,
 };
+use actix_web::body::{MessageBody, ResponseBody};
 use actix_web::error::{Error, Result};
 use actix_web::http::header::{HOST, REFERER, USER_AGENT};
 use actix_web::http::StatusCode;
 use actix_web::web::Bytes;
 use chrono::prelude::*;
-use futures::future::{ok, Ready};
+use futures::{future::{ok, Ready}};
 use slog::{debug, info, o, Logger};
 use std::borrow::ToOwned;
 use std::collections::HashSet;
@@ -124,7 +125,7 @@ where
 
         let remote_addr = req
             .connection_info()
-            .remote()
+            .remote_addr()
             .map_or(String::from("-"), ToOwned::to_owned);
 
         let host = req
@@ -240,7 +241,7 @@ impl<B: MessageBody> MessageBody for StreamLog<B> {
         self.body.size()
     }
 
-    fn poll_next(&mut self, cx: &mut Context) -> Poll<Option<Result<Bytes, Error>>> {
+    fn poll_next(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Result<Bytes, Error>>> {
         match self.body.poll_next(cx) {
             Poll::Ready(Some(Ok(chunk))) => {
                 self.size += chunk.len();
