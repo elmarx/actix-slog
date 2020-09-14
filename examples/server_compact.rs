@@ -25,7 +25,7 @@ pub async fn c(_req: HttpRequest) -> impl Responder {
     HttpResponse::Ok().body("Hello World")
 }
 
-#[actix_rt::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // TermDecorator with CompactFormat is probably nicer for (local) development
     let decorator = TermDecorator::new().build();

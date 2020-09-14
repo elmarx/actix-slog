@@ -18,7 +18,7 @@ pub async fn index(_req: HttpRequest) -> impl Responder {
     HttpResponse::Ok().body("Hello World")
 }
 
-#[actix_rt::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let drain = Json::new(std::io::stdout())
         .add_key_value(o!(
