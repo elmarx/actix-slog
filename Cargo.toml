@@ -1,6 +1,6 @@
 [package]
 name = "actix-slog"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Elmar Athmer <elmar@athmer.org>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
@@ -8,7 +8,7 @@ readme = "README.md"
 repository = "https://github.com/elmarx/actix-slog"
 homepage = "https://github.com/elmarx/actix-slog"
 keywords = ["log", "logging", "structured", "actix-web", "json-logging"]
-categories = ["development-tools::debugging", "web-programming::http-server"]
+categories = ["web-programming::http-server", "development-tools::debugging"]
 description = "structured access-logging for actix-web utilizing slog, thus enabling JSON-logging"
 
 [dependencies]
