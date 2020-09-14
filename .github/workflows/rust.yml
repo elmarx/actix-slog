@@ -2,7 +2,8 @@ name: Rust
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      - "**"
   pull_request:
     branches: [ master ]
 
@@ -16,11 +17,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Build
-      run: cargo check --tests --examples --verbose
+      run: cargo check --all-targets
     - name: check style
       run: cargo fmt --all -- --check
     - name: Lint
-      run: cargo clippy --tests --examples -- -W clippy::pedantic
+      run: cargo clippy --all-targets -- -W clippy::pedantic
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test
