@@ -141,7 +141,7 @@ where
             .unwrap_or("-");
 
         let logger = self.inner.logger.new(o!(
-            "version" => format!("{:?}", req.version()),
+            "http_version" => format!("{:?}", req.version()),
             "http_host" => host.to_owned(),
             "referer" => referer.to_owned(),
             "remote_address" => remote_addr,
