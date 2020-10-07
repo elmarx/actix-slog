@@ -14,6 +14,7 @@
 //!   })
 //!   .bind("[::1]:8080");
 //! ```
+use crate::field_names::FieldNames;
 use actix_web::dev::{
     BodySize, MessageBody, ResponseBody, Service, ServiceRequest, ServiceResponse, Transform,
 };
@@ -33,12 +34,15 @@ use std::pin::Pin;
 use std::rc::Rc;
 use std::task::{Context, Poll};
 
+mod field_names;
+
 /// global configuration/builder for the log middleware
 pub struct StructuredLogger(Rc<Inner>);
 
 struct Inner {
     logger: Logger,
     exclude: HashSet<String>,
+    field_names: FieldNames,
 }
 
 impl StructuredLogger {
@@ -48,6 +52,7 @@ impl StructuredLogger {
         StructuredLogger(Rc::new(Inner {
             logger,
             exclude: HashSet::new(),
+            field_names: FieldNames::default(),
         }))
     }
 
@@ -140,16 +145,17 @@ where
             .and_then(|v| v.to_str().ok())
             .unwrap_or("-");
 
+        let n = &self.inner.field_names;
         let logger = self.inner.logger.new(o!(
-            "http_version" => format!("{:?}", req.version()),
-            "http_host" => host.to_owned(),
-            "referer" => referer.to_owned(),
-            "remote_address" => remote_addr,
-            "user-agent" => user_agent.to_owned(),
-            "request_method" => req.method().to_string(),
-            "correlation_id" => correlation_id.to_owned(),
-            "uri" => req.path().to_owned(),
-            "query" => format!("?{}", req.query_string()),
+            n.http_version => format!("{:?}", req.version()),
+            n.http_host => host.to_owned(),
+            n.referer => referer.to_owned(),
+            n.remote_address => remote_addr,
+            n.user_agent => user_agent.to_owned(),
+            n.request_method => req.method().to_string(),
+            n.correlation_id => correlation_id.to_owned(),
+            n.uri => req.path().to_owned(),
+            n.query_string => format!("?{}", req.query_string()),
         ));
 
         LoggerResponse {
@@ -234,7 +240,7 @@ impl<B> PinnedDrop for StreamLog<B> {
         if !self.is_exclude {
             let response_time = Utc::now() - self.timestamp;
             let response_time = response_time.num_milliseconds();
-            info!(self.logger, "-"; o!("bytes_sent" => self.size), "response_time" => response_time);
+            info!(self.logger, "-"; o!("bytes_sent" => self.size, "response_time" => response_time));
         }
     }
 }
