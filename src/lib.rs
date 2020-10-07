@@ -139,6 +139,12 @@ where
             .and_then(|v| v.to_str().ok())
             .unwrap_or("-");
 
+        let query_string = if req.query_string().is_empty() {
+            "-"
+        } else {
+            req.query_string()
+        };
+
         let correlation_id = req
             .headers()
             .get("correlation-id")
@@ -155,7 +161,7 @@ where
             n.request_method => req.method().to_string(),
             n.correlation_id => correlation_id.to_owned(),
             n.uri => req.path().to_owned(),
-            n.query_string => format!("?{}", req.query_string()),
+            n.query_string => query_string.to_owned(),
         ));
 
         LoggerResponse {
